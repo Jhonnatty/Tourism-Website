@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mabini Tourism</title>
+
+  <!-- Tailwind & Fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <script src="https://kit.fontawesome.com/a2e0e6ad65.js" crossorigin="anonymous"></script>
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+  <!-- EmailJS SDK (for client-side email sending). Replace the IDs in the script below. -->
+  <script type="text/javascript" src="https://cdn.emailjs.com/sdk/3.2.0/email.min.js"></script>
+
+  <style>
+    html, body {
+      font-family: 'Poppins', sans-serif;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+      background-color: #fdfcf9;
+    }
+
+    /* Navbar transition */
+    .navbar-active {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    /* Aurora Text */
+    .aurora-text {
+      background: linear-gradient(135deg, #0ea5e9, #14b8a6, #facc15);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: aurora 5s ease-in-out infinite;
+    }
+    @keyframes aurora {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* Hero Background Parallax */
+    .hero-bg {
+      background-image: url('https://i.pinimg.com/1200x/b7/94/ae/b794aee72b944d355e06aceeadc70061.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      position: relative;
+    }
+    .hero-bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.6), rgba(0,0,0,0.3));
+    }
+
+    /* Hover Card Effect */
+    .card-hover:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+    .card-hover {
+      transition: all 0.4s ease;
+    }
+
+    /* Footer Hover */
+    .social-icon:hover {
+      transform: translateY(-5px) scale(1.1);
+      transition: transform 0.3s ease;
+    }
+
+    /* Floating animation */
+    .float-animation {
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    /* Pulse animation */
+    .pulse-animation {
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    /* Bounce animation */
+    .bounce-animation {
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
+    }
+
+    /* Scroll progress indicator */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 4px;
+      background: linear-gradient(to right, #0ea5e9, #14b8a6);
+      z-index: 1000;
+      transition: width 0.3s ease;
+    }
+
+    /* Back to top button */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #0ea5e9;
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+      z-index: 99;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .back-to-top.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .back-to-top:hover {
+      background: #14b8a6;
+      transform: translateY(-5px);
+    }
+
+    /* Text reveal animation */
+    .text-reveal {
+      overflow: hidden;
+      display: inline-block;
+    }
+    .text-reveal span {
+      display: inline-block;
+      transform: translateY(100%);
+      animation: textReveal 0.8s forwards;
+    }
+    @keyframes textReveal {
+      to {
+        transform: translateY(0);
+      }
+    }
+
+    /* Mobile menu animation */
+    .mobile-menu {
+      transform: translateY(-100%);
+      transition: transform 0.4s ease;
+    }
+    .mobile-menu.active {
+      transform: translateY(0);
+    }
+
+    /* Loading animation for images */
+    .image-loading {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: loading 1.5s infinite;
+    }
+    @keyframes loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* Glow effect */
+    .glow-effect {
+      box-shadow: 0 0 20px rgba(14, 165, 233, 0.4);
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+    @keyframes glow {
+      from { box-shadow: 0 0 20px rgba(14, 165, 233, 0.4); }
+      to { box-shadow: 0 0 30px rgba(20, 184, 166, 0.6); }
+    }
+  </style>
+</head>
+
+<body class="text-gray-800">
+
+  <!-- Scroll Progress Indicator -->
+  <div class="scroll-progress"></div>
+
+  <!-- Back to Top Button -->
+  <div class="back-to-top">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
+  <!-- Header -->
+  <header id="navbar" class="fixed w-full z-50 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+        <div class="w-10 h-10 flex items-center justify-center rounded-full overflow-hidden pulse-animation">
+          <img src="https://i.pinimg.com/736x/9f/9c/07/9f9c07b9068a836d9729800fb6d36348.jpg" alt="Mabini logo" class="w-full h-full object-cover">
+        </div>
+        <span class="text-2xl font-bold text-cyan-700">Mabini</span>
+      </div>
+      <nav id="menu" class="hidden md:flex space-x-6 font-semibold">
+        <a href="#home" class="hover:text-cyan-600 transition-colors duration-300">Home</a>
+        <a href="#attractions" class="hover:text-cyan-600 transition-colors duration-300">Attractions</a>
+        <a href="#map" class="hover:text-cyan-600 transition-colors duration-300">Map</a>
+        <a href="#contact" class="hover:text-cyan-600 transition-colors duration-300">Contact</a>
+      </nav>
+      <button id="menuBtn" class="md:hidden text-2xl focus:outline-none">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu md:hidden absolute top-16 left-0 w-full bg-white shadow-lg py-4 px-6">
+      <a href="#home" class="block py-3 text-lg font-semibold hover:text-cyan-600 transition-colors duration-300">Home</a>
+      <a href="#attractions" class="block py-3 text-lg font-semibold hover:text-cyan-600 transition-colors duration-300">Attractions</a>
+      <a href="#map" class="block py-3 text-lg font-semibold hover:text-cyan-600 transition-colors duration-300">Map</a>
+      <a href="#contact" class="block py-3 text-lg font-semibold hover:text-cyan-600 transition-colors duration-300">Contact</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero-bg min-h-screen flex items-center justify-center text-center text-white relative">
+    <div class="z-10 px-6" data-aos="fade-up" data-aos-duration="1000">
+      <h1 class="text-5xl md:text-7xl font-bold aurora-text mb-6">
+        <span class="text-reveal">
+          <span style="animation-delay: 0.1s">Discover</span>
+        </span>
+        <span class="text-reveal">
+          <span style="animation-delay: 0.3s">Mabini</span>
+        </span>
+      </h1>
+      <p class="mt-4 text-lg md:text-xl text-gray-200 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="500">
+        Dive into crystal waters, hike lush trails, and savor local flavors in the beautiful paradise of Batangas.
+      </p>
+      <div class="mt-10" data-aos="fade-up" data-aos-delay="700">
+        <a href="#attractions" class="inline-block bg-cyan-600 hover:bg-cyan-500 px-8 py-4 rounded-full font-semibold shadow-lg transition-all duration-300 transform hover:scale-105 glow-effect">
+          Plan Your Visit
+        </a>
+      </div>
+      <div class="mt-16 bounce-animation" data-aos="fade-up" data-aos-delay="900">
+        <a href="#attractions" class="text-white text-lg">
+          <i class="fas fa-chevron-down"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Attractions -->
+  <section id="attractions" class="max-w-7xl mx-auto px-6 py-20">
+    <h2 class="text-4xl font-bold text-center mb-4 text-cyan-700" data-aos="fade-up">Top Experiences in Mabini</h2>
+    <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+      From underwater wonders to breathtaking mountain views, Mabini offers unforgettable experiences for every traveler.
+    </p>
+
+    <div class="swiper mySwiper" data-aos="fade-up" data-aos-duration="800">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+          <div class="h-64 w-full overflow-hidden">
+            <img src="https://www.thepoortraveler.net/wp-content/uploads/2013/03/Anilao-Diving.jpg" 
+                 class="h-full w-full object-cover transition-transform duration-700 hover:scale-110"
+                 alt="Anilao Diving">
+          </div>
+          <div class="p-6">
+            <h3 class="font-semibold text-xl mb-3">Anilao Diving Spot</h3>
+            <p class="text-gray-600 mb-4">Explore vibrant coral reefs and marine life in crystal-clear waters.</p>
+            <div class="flex items-center text-cyan-600">
+              <i class="fas fa-star mr-1"></i>
+              <i class="fas fa-star mr-1"></i>
+              <i class="fas fa-star mr-1"></i>
+              <i class="fas fa-star mr-1"></i>
+              <i class="fas fa-star-half-alt mr-2"></i>
+              <span class="text-sm">4.5 (120 reviews)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="swiper-slide bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+          <div class="h-64 w-full overflow-hidden">
+            <img src="https://campsites.ph/uploads/images/campsite-29-mt-gulugod-baboy-dce1e46bb9df1163bba4e7cf9a058821.jpg" 
+                 class="h-full w-full object-cover transition-transform duration-700 hover:scale-110"
+                 alt="Mt. Gulugod Baboy">
+          </div>
+          <div class="p-6">
+            <h3 class="font-semibold text-xl mb-3">Mt. Gulugod Baboy</h3>
+            <p class="text-gray-600 mb-4">Hike scenic trails with breathtaking views of Mabini Batangas.</p>
+            <div class="flex items-center text-cyan-600">
+              <i class="fas fa-star mr-1"></i>
+              <i class="fas fa-star mr-1"></i>
+              <i class="fas fa-star mr-1"></i>
+              <i class="fas fa-star mr-1"></i>
+              <i class="fas fa-star mr-2"></i>
+              <span class="text-sm">4.8 (95 reviews)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="swiper-slide bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+          <div class="h-64 w-full overflow-hidden">
+            <img src="https://farm5.staticflickr.com/4315/35110404323_cefd2bc215_k.jpg" 
+                 class="h-full w-full object-cover transition-transform duration-700 hover:scale-110"
+                 alt="Masasa Beach">
+          </div>
+          <div class="p-6">
+            <h3 class="font-semibold text-xl mb-3">Masasa Beach</h3>
+            <p class="text-gray-600 mb-4">Relax on white sands and swim in turquoise waters.</p>
+            <div class="flex items-center text-cyan-600">
+              <i class="fas fa-star mr-1"></i>
+              <i class="fas fa-star mr-1"></i>
+              <i class="fas fa-star mr-1"></i>
+              <i class="fas fa-star mr-1"></i>
+              <i class="fas fa-star mr-2"></i>
+              <span class="text-sm">4.7 (210 reviews)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="swiper-slide bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+          <div class="h-64 w-full overflow-hidden">
+            <img src="https://cdn.phonebooky.com/blog/wp-content/uploads/2023/08/10143359/lomi-cover.jpg" 
+                 class="h-full w-full object-cover transition-transform duration-700 hover:scale-110"
+                 alt="Mabini Lomi">
+          </div>
+          <div class="p-6">
+            <h3 class="font-semibold text-xl mb-3">Mabini Lomi</h3>
+            <p class="text-gray-600 mb-4">Savor the authentic taste of Batangas' famous hot lomi.</p>
+            <div class="flex items-center text-cyan-600">
+              <i class="fas fa-star mr-1"></i>
+              <i class="fas fa-star mr-1"></i>
+              <i class="fas fa-star mr-1"></i>
+              <i class="fas fa-star mr-1"></i>
+              <i class="fas fa-star-half-alt mr-2"></i>
+              <span class="text-sm">4.6 (180 reviews)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="swiper-pagination mt-6"></div>
+      <div class="swiper-button-prev text-cyan-600"></div>
+      <div class="swiper-button-next text-cyan-600"></div>
+    </div>
+  </section>
+
+  <!-- Statistics Section -->
+  <section class="bg-cyan-700 text-white py-16">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+        <div class="float-animation" data-aos="fade-up" data-aos-delay="100">
+          <div class="text-4xl font-bold mb-2" id="visitorsCount">0</div>
+          <div class="text-lg">Annual Visitors</div>
+        </div>
+        <div class="float-animation" data-aos="fade-up" data-aos-delay="200">
+          <div class="text-4xl font-bold mb-2" id="beachesCount">0</div>
+          <div class="text-lg">Beautiful Beaches</div>
+        </div>
+        <div class="float-animation" data-aos="fade-up" data-aos-delay="300">
+          <div class="text-4xl font-bold mb-2" id="diveSitesCount">0</div>
+          <div class="text-lg">Dive Sites</div>
+        </div>
+        <div class="float-animation" data-aos="fade-up" data-aos-delay="400">
+          <div class="text-4xl font-bold mb-2" id="hotelsCount">0</div>
+          <div class="text-lg">Hotels & Resorts</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="bg-teal-50 py-20">
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center mb-4 text-cyan-700" data-aos="fade-up">Contact Us</h2>
+      <p class="text-center text-gray-600 mb-10 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+        Have questions or need assistance planning your trip? We're here to help!
+      </p>
+      <div class="grid md:grid-cols-2 gap-10">
+        <div data-aos="fade-right">
+          <h3 class="font-semibold text-xl mb-3 flex items-center">
+            <i class="fas fa-map-marker-alt mr-3 text-cyan-600"></i> Address
+          </h3>
+          <p class="text-gray-700 mb-6 ml-8">Mabini, Batangas, Philippines</p>
+          
+          <h3 class="font-semibold text-xl mb-3 flex items-center">
+            <i class="fas fa-phone mr-3 text-cyan-600"></i> Phone
+          </h3>
+          <p class="text-gray-700 mb-6 ml-8">+63 912 345 6789</p>
+          
+          <h3 class="font-semibold text-xl mb-3 flex items-center">
+            <i class="fas fa-envelope mr-3 text-cyan-600"></i> Email
+          </h3>
+          <p class="text-gray-700 mb-6 ml-8">info@mabinitourism.com</p>
+          
+          <div class="mt-8 ml-8 flex space-x-4 text-2xl text-cyan-600">
+            <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+
+        <div data-aos="fade-left">
+          <form id="contactForm" class="bg-white p-8 rounded-xl shadow-lg space-y-5">
+            <!-- Names must match your EmailJS template variables (from_name, from_email, message) -->
+            <input type="text" id="name" name="from_name" placeholder="Your Name" class="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300" required>
+            <input type="email" id="email" name="from_email" placeholder="Your Email" class="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300" required>
+            <textarea id="message" name="message" placeholder="Your Message" rows="5" class="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300" required></textarea>
+            <button type="submit" class="w-full bg-cyan-600 hover:bg-cyan-500 text-white py-4 rounded-lg font-semibold transition-all duration-300 transform hover:scale-[1.02] flex items-center justify-center">
+              <span id="submitText">Send Message</span>
+              <i id="submitIcon" class="fas fa-paper-plane ml-2"></i>
+            </button>
+            <div id="formStatus" class="text-sm text-center mt-2"></div>
+            <p id="successMessage" class="hidden text-green-600 font-semibold mt-2 text-center">
+              <i class="fas fa-check-circle mr-2"></i>Message sent successfully!
+            </p>
+          </form>
+        </div>
+      </div>
+
+      <!-- Map -->
+      <div id="map" class="mt-16" data-aos="fade-up">
+        <h2 class="text-2xl font-bold mb-6 text-center">Find Us on Map</h2>
+        <div class="rounded-xl overflow-hidden shadow-lg">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3873.234063031419!2d120.7911!3d13.7403!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bd0a1a90f5d1a7%3A0x1234567890abcdef!2sMabini%2C%20Batangas!5e0!3m2!1sen!2sph!4v1696512345678" width="100%" height="400" style="border:0;" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-12">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div>
+          <div class="flex items-center space-x-2 mb-4">
+            <div class="w-10 h-10 flex items-center justify-center rounded-full overflow-hidden">
+                <img src="https://i.pinimg.com/736x/9f/9c/07/9f9c07b9068a836d9729800fb6d36348.jpg" alt="Mabini logo" class="w-full h-full object-cover" loading="lazy">
+              </div>
+            <span class="text-2xl font-bold text-cyan-400">Mabini</span>
+          </div>
+          <p class="text-gray-400">Discover the beauty and wonders of Mabini, Batangas - your perfect tropical getaway.</p>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li><a href="#home" class="text-gray-400 hover:text-cyan-400 transition-colors duration-300">Home</a></li>
+            <li><a href="#attractions" class="text-gray-400 hover:text-cyan-400 transition-colors duration-300">Attractions</a></li>
+            <li><a href="#map" class="text-gray-400 hover:text-cyan-400 transition-colors duration-300">Map</a></li>
+            <li><a href="#contact" class="text-gray-400 hover:text-cyan-400 transition-colors duration-300">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Popular Destinations</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-cyan-400 transition-colors duration-300">Anilao Diving</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-cyan-400 transition-colors duration-300">Mt. Gulugod Baboy</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-cyan-400 transition-colors duration-300">Masasa Beach</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-cyan-400 transition-colors duration-300">Sepoc Beach</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Connect With Us</h3>
+          <div class="flex space-x-4">
+            <a href="#" class="social-icon text-gray-400 hover:text-cyan-400"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="social-icon text-gray-400 hover:text-cyan-400"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-icon text-gray-400 hover:text-cyan-400"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-icon text-gray-400 hover:text-cyan-400"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="pt-8 border-t border-gray-800 text-center text-gray-400">
+        <p>&copy; 2025 Mabini Tourism. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    // Initialize AOS
+    AOS.init({
+      duration: 1000,
+      once: true,
+      offset: 100
+    });
+
+    // Navbar background change on scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('navbar-active');
+      } else {
+        navbar.classList.remove('navbar-active');
+      }
+    });
+
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('active');
+      // Change icon based on menu state
+      const icon = menuBtn.querySelector('i');
+      if (mobileMenu.classList.contains('active')) {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-times');
+      } else {
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+      }
+    });
+
+    // Close mobile menu when clicking on a link
+    const mobileLinks = mobileMenu.querySelectorAll('a');
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+        const icon = menuBtn.querySelector('i');
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+      });
+    });
+
+    // Swiper setup
+    var swiper = new Swiper(".mySwiper", {
+      slidesPerView: 1,
+      spaceBetween: 30,
+      loop: true,
+      pagination: { 
+        el: ".swiper-pagination", 
+        clickable: true,
+        dynamicBullets: true
+      },
+      navigation: { 
+        nextEl: ".swiper-button-next", 
+        prevEl: ".swiper-button-next" 
+      },
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+      },
+      breakpoints: { 
+        640: { slidesPerView: 2 }, 
+        1024: { slidesPerView: 3 } 
+      }
+    });
+
+    // Contact form validation
+    const form = document.getElementById('contactForm');
+    const submitText = document.getElementById('submitText');
+    const submitIcon = document.getElementById('submitIcon');
+    
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const message = form.message.value.trim();
+      
+      if (!name || !email || !message) {
+        alert('Please fill out all fields.');
+        return;
+      }
+      
+      // Show loading state
+      submitText.textContent = 'Sending...';
+      submitIcon.classList.remove('fa-paper-plane');
+      submitIcon.classList.add('fa-spinner', 'fa-spin');
+      
+      // Simulate form submission
+      setTimeout(() => {
+        form.reset();
+        document.getElementById('successMessage').classList.remove('hidden');
+        submitText.textContent = 'Send Message';
+        submitIcon.classList.remove('fa-spinner', 'fa-spin');
+        submitIcon.classList.add('fa-paper-plane');
+        
+        // Hide success message after 5 seconds
+        setTimeout(() => {
+          document.getElementById('successMessage').classList.add('hidden');
+        }, 5000);
+      }, 2000);
+    });
+
+    // Scroll progress indicator
+    const scrollProgress = document.querySelector('.scroll-progress');
+    window.addEventListener('scroll', () => {
+      const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (window.scrollY / windowHeight) * 100;
+      scrollProgress.style.width = `${scrolled}%`;
+    });
+
+    // Back to top button
+    const backToTop = document.querySelector('.back-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTop.classList.add('active');
+      } else {
+        backToTop.classList.remove('active');
+      }
+    });
+    
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Animated counter for statistics
+    function animateCounter(id, start, end, duration) {
+      let obj = document.getElementById(id);
+      let startTime = null;
+      
+      function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        const progress = Math.min((timestamp - startTime) / duration, 1);
+        obj.innerHTML = Math.floor(progress * (end - start) + start);
+        
+        if (progress < 1) {
+          window.requestAnimationFrame(step);
+        }
+      }
+      
+      window.requestAnimationFrame(step);
+    }
+    
+    // Initialize counters when section is in view
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounter('visitorsCount', 0, 50000, 2000);
+          animateCounter('beachesCount', 0, 15, 1500);
+          animateCounter('diveSitesCount', 0, 30, 1800);
+          animateCounter('hotelsCount', 0, 50, 2200);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    
+    observer.observe(document.querySelector('.bg-cyan-700'));
+
+    // Text reveal animation
+    const textRevealElements = document.querySelectorAll('.text-reveal span');
+    textRevealElements.forEach((span, index) => {
+      span.style.animationDelay = `${index * 0.2}s`;
+    });
+
+    // Image loading animation
+    const images = document.querySelectorAll('img');
+    images.forEach(img => {
+      // Add loading class initially
+      img.classList.add('image-loading');
+      
+      img.addEventListener('load', () => {
+        // Remove loading class when image is loaded
+        img.classList.remove('image-loading');
+      });
+    });
+  </script>
+
+  <!-- EmailJS contact form handler: replace the placeholder IDs with your EmailJS values -->
+  <script>
+    (function() {
+      // Replace these with values from your EmailJS dashboard
+      const PUBLIC_KEY = 'YOUR_PUBLIC_KEY'; // e.g., user_xxx
+      const SERVICE_ID = 'YOUR_SERVICE_ID'; // e.g., service_xxx
+      const TEMPLATE_ID = 'YOUR_TEMPLATE_ID'; // e.g., template_xxx
+
+      if (typeof emailjs !== 'undefined' && emailjs.init) {
+        try { emailjs.init(PUBLIC_KEY); } catch (e) { console.warn('EmailJS init failed', e); }
+      }
+
+      const form = document.getElementById('contactForm');
+      const submitText = document.getElementById('submitText');
+      const submitIcon = document.getElementById('submitIcon');
+      const formStatus = document.getElementById('formStatus');
+
+      if (!form) return;
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Basic client-side validation (HTML `required` handles most)
+        const name = form.querySelector('[name="from_name"]').value.trim();
+        const email = form.querySelector('[name="from_email"]').value.trim();
+        const message = form.querySelector('[name="message"]').value.trim();
+        if (!name || !email || !message) {
+          formStatus.textContent = 'Please fill in all fields.';
+          formStatus.className = 'text-sm text-center mt-2 text-red-400';
+          return;
+        }
+
+        submitText.textContent = 'Sending...';
+        submitIcon.classList.add('fa-spin');
+        formStatus.textContent = '';
+
+        // Send the form using EmailJS
+        emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, this)
+          .then(function() {
+            submitText.textContent = 'Sent!';
+            submitIcon.classList.remove('fa-spin');
+            formStatus.textContent = 'Message sent — check your email.';
+            formStatus.className = 'text-sm text-center mt-2 text-green-400';
+            form.reset();
+            setTimeout(() => { submitText.textContent = 'Send Message'; formStatus.textContent = ''; }, 4000);
+          }, function(error) {
+            submitText.textContent = 'Send Message';
+            submitIcon.classList.remove('fa-spin');
+            formStatus.textContent = 'Failed to send message. Check console for details.';
+            formStatus.className = 'text-sm text-center mt-2 text-red-400';
+            console.error('EmailJS error:', error);
+          });
+      });
+    })();
+  </script>
+
+</body>
+</html>dd

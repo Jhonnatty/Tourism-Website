@@ -8,7 +8,7 @@ This project is a responsive tourism website designed to showcase the natural at
 - Smooth Animations using AOS (Animate On Scroll)  
 - Responsive Navigation Bar with mobile menu  
 - Contact Form with EmailJS Integration for sending messages directly  
-- Scroll Progress Indicator and *ack-to-Top Button  
+- Scroll Progress Indicator and ack-to-Top Button  
 - Statistics Section with animated counters  
 - Integrated Google Map for location viewing  
 
